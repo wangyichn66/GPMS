@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/title_layout"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/search_layout_bg">
+
+        <ImageButton
+            android:id="@+id/back_imgbtn"
+            android:layout_marginStart="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:background="@null"
+            android:contentDescription="@null"
+            android:src="@drawable/back" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/title"
+            android:textColor="@color/black"
+            android:textSize="15sp" />
+
+        <Button
+            android:id="@+id/modfiy_btn"
+            android:background="@null"
+            android:textSize="18sp"
+            android:textColor="@color/colorPrimary"
+            android:layout_centerVertical="true"
+            android:text="编辑"
+            android:layout_alignParentEnd="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </RelativeLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:padding="5dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/material_details_bg"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="match_parent">
+
+        <TextView
+            app:layout_constraintStart_toStartOf="parent"
+            android:id="@+id/name"
+            app:layout_constraintTop_toTopOf="parent"
+            android:text="物料名字"
+            android:textColor="@color/colorPrimary"
+            android:textSize="18sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/type"
+            android:textColor="@color/black"
+            android:text="物料类型"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:layout_marginTop="@dimen/text_margin_top"
+            android:text="品牌:"
+            android:textSize="12sp"
+            android:id="@+id/brand_hint_tv"
+            app:layout_constraintTop_toBottomOf="@id/name"
+            app:layout_constraintStart_toStartOf="@id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            app:layout_goneMarginStart="@dimen/text_margin_start"
+            app:layout_constraintStart_toEndOf="@id/brand_hint_tv"
+            android:id="@+id/barnd_tv"
+            android:textSize="12sp"
+            android:text="tesa"
+            app:layout_constraintTop_toTopOf="@id/brand_hint_tv"
+            android:layout_marginStart="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/time_hint_tv"
+            app:layout_constraintTop_toBottomOf="@id/brand_hint_tv"
+            android:layout_marginTop="@dimen/text_margin_top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:text="资料更新日期:"
+            app:layout_constraintStart_toStartOf="@id/name" />
+
+        <TextView
+            android:id="@+id/time_tv"
+            android:layout_marginStart="@dimen/text_margin_start"
+            app:layout_constraintTop_toTopOf="@id/time_hint_tv"
+            app:layout_constraintStart_toEndOf="@id/time_hint_tv"
+            android:layout_width="wrap_content"
+            android:textSize="12sp"
+            android:layout_height="wrap_content"
+            android:text="xxxx-xx-xx" />
+
+        <View
+            android:id="@+id/line_view"
+            android:layout_marginTop="@dimen/text_margin_top"
+            app:layout_constraintTop_toBottomOf="@id/time_hint_tv"
+            android:background="@color/line_view"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"/>
+
+        <TextView
+            android:layout_marginTop="@dimen/text_margin_top"
+            app:layout_constraintStart_toStartOf="@id/name"
+            app:layout_constraintTop_toBottomOf="@id/line_view"
+            android:textColor="@color/black"
+            android:text="合规性:"
+            android:id="@+id/compliance_hint_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/compliance_tv"
+            android:text="合规性"
+            android:layout_marginStart="@dimen/text_margin_start"
+            app:layout_constraintTop_toTopOf="@id/compliance_hint_tv"
+            app:layout_constraintStart_toEndOf="@id/compliance_hint_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:text="含有物质:"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/black"
+            app:layout_constraintStart_toStartOf="@id/name"
+            app:layout_constraintTop_toBottomOf="@id/compliance_hint_tv"
+            android:id="@+id/contains_material_hint_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <LinearLayout
+            android:id="@+id/contains_material_title_layout"
+            android:layout_marginTop="@dimen/text_margin_top"
+            app:layout_constraintTop_toBottomOf="@id/contains_material_hint_tv"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:gravity="center"
+                android:text="名称"
+                android:textColor="@color/black"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:textColor="@color/black"
+                android:gravity="center"
+                android:text="CAS No"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:textColor="@color/black"
+                android:text="含量"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:textColor="@color/black"
+                android:text="用途备注"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            app:layout_constraintTop_toBottomOf="@id/contains_material_title_layout"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</LinearLayout>

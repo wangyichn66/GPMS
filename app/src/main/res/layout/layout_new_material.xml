@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/title_layout"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/search_layout_bg">
+
+        <ImageButton
+            android:id="@+id/back_imgbtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="15dp"
+            android:background="@null"
+            android:contentDescription="@null"
+            android:src="@drawable/back" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/title"
+            android:textColor="@color/black"
+            android:textSize="15sp" />
+
+        <Button
+            android:id="@+id/save_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:background="@null"
+            android:text="保存"
+            android:textColor="@color/colorPrimary"
+            android:textSize="18sp" />
+    </RelativeLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+
+        android:background="@drawable/material_details_bg"
+        android:orientation="vertical"
+        android:padding="5dp">
+
+        <TextView
+            android:id="@+id/info_hint_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="物料基本信息"
+            android:textColor="@color/colorPrimary"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <TextView
+            android:id="@+id/name_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="物料名称:"
+            app:layout_constraintStart_toStartOf="@id/info_hint_tv"
+            app:layout_constraintTop_toBottomOf="@id/info_hint_tv" />
+
+        <EditText
+            android:id="@+id/name_et"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:background="@null"
+            android:gravity="end"
+            android:hint="物料名称"
+            android:maxHeight="40dp"
+            android:maxLines="1"
+            android:minWidth="50dp"
+            android:padding="0dp"
+            android:singleLine="true"
+            android:textSize="13sp"
+            app:layout_constraintBottom_toBottomOf="@+id/name_tv"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/name_tv" />
+
+        <View
+            android:id="@+id/line_view"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="@dimen/text_margin_top"
+            android:background="@color/line_view"
+            app:layout_constraintTop_toBottomOf="@id/name_tv" />
+
+        <TextView
+            android:id="@+id/brand_hint_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_margin_top"
+            android:text="品牌:"
+            app:layout_constraintStart_toStartOf="@id/info_hint_tv"
+            app:layout_constraintTop_toBottomOf="@id/line_view" />
+
+        <EditText
+            android:id="@+id/barnd_et"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:gravity="end"
+            android:hint="品牌"
+            android:maxHeight="40dp"
+            android:maxLines="1"
+            android:minWidth="50dp"
+            android:padding="0dp"
+            android:singleLine="true"
+            android:textSize="13sp"
+            app:layout_constraintBottom_toBottomOf="@id/brand_hint_tv"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/brand_hint_tv" />
+
+        <View
+            android:id="@+id/line_view2"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="@dimen/text_margin_top"
+            android:background="@color/line_view"
+            app:layout_constraintTop_toBottomOf="@id/brand_hint_tv" />
+
+        <TextView
+            android:id="@+id/type_hint_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_margin_top"
+            android:text="类型:"
+            app:layout_constraintStart_toStartOf="@id/info_hint_tv"
+            app:layout_constraintTop_toBottomOf="@id/line_view2" />
+
+        <EditText
+            android:id="@+id/type_et"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:gravity="end"
+            android:hint="类型"
+            android:maxHeight="40dp"
+            android:maxLines="1"
+            android:minWidth="50dp"
+            android:padding="0dp"
+            android:singleLine="true"
+            android:textSize="13sp"
+            app:layout_constraintBottom_toBottomOf="@id/type_hint_tv"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/type_hint_tv" />
+
+        <View
+            android:id="@+id/line_view3"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="@dimen/text_margin_top"
+            android:background="@color/line_view"
+            app:layout_constraintTop_toBottomOf="@id/type_hint_tv" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="5dp"
+        android:layout_weight="1"
+        android:background="@drawable/material_details_bg"
+        android:padding="5dp">
+
+        <TextView
+            android:id="@+id/material_compliance_hint_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="产品合规性"
+            android:textColor="@color/colorPrimary"
+            android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/compliance_hint_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="合规性:"
+            app:layout_constraintStart_toStartOf="@id/material_compliance_hint_tv"
+            app:layout_constraintTop_toBottomOf="@id/material_compliance_hint_tv" />
+
+        <EditText
+            android:id="@+id/compliance_et"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:gravity="end"
+            android:hint="合规性"
+            android:maxHeight="40dp"
+            android:maxLines="1"
+            android:minWidth="50dp"
+            android:padding="0dp"
+            android:singleLine="true"
+            android:textSize="13sp"
+            app:layout_constraintBottom_toBottomOf="@id/compliance_hint_tv"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/compliance_hint_tv" />
+
+        <View
+            android:id="@+id/line_view4"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="@dimen/text_margin_top"
+            android:background="@color/line_view"
+            app:layout_constraintTop_toBottomOf="@id/compliance_hint_tv" />
+
+        <TextView
+            android:id="@+id/include_substance_hint_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_margin_top"
+            android:text="含有物质:"
+            app:layout_constraintStart_toStartOf="@id/compliance_hint_tv"
+            app:layout_constraintTop_toBottomOf="@id/line_view4" />
+
+        <ImageView
+            android:id="@+id/info_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:scaleX="0.8"
+            android:scaleY="0.8"
+            android:src="@drawable/info"
+            app:layout_constraintBottom_toBottomOf="@id/include_substance_hint_tv"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/include_substance_hint_tv" />
+
+        <LinearLayout
+            android:id="@+id/material_title_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/text_margin_top"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@id/include_substance_hint_tv">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="名称"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="CAS No"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="含量"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="用途备注"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv"
+            android:layout_width="match_parent"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/material_title_layout" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</LinearLayout>

@@ -1,0 +1,83 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 30
+    buildToolsVersion "30.0.2"
+
+    defaultConfig {
+        applicationId "hk.com.rubyicl.gpms"
+        minSdkVersion 26
+        targetSdkVersion 30
+        versionCode 1
+        versionName "1.0"
+        multiDexEnabled true  //true 开启多dex，解除65k限制
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    signingConfigs {
+        debug {
+            storeFile file('../gpms.jks')
+            storePassword '123456'
+            keyAlias = 'gpms'
+            keyPassword '123456'
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.1'
+    testImplementation 'junit:junit:4.12'
+    implementation 'com.google.android.material:material:1.3.0-alpha02'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+
+    implementation 'com.jakewharton:butterknife:10.2.1'                  //黄油刀
+    annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.1'    //黄油刀
+
+    implementation 'pub.devrel:easypermissions:3.0.0'       //权限申请
+    implementation 'com.permissionx.guolindev:permissionx:1.4.0'    //权限申请
+    implementation 'cat.ereza:customactivityoncrash:2.3.0'  //崩溃检测
+
+    //https://muyangmin.github.io/glide-docs-cn/doc/getting-started.html
+    implementation 'com.github.bumptech.glide:glide:4.11.0'     //图片加载
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
+
+    implementation 'com.blankj:utilcodex:1.29.0'    //Android 通用代码第三方库
+
+    //使用该库参照此网站 https://blog.csdn.net/Life_s/article/details/81013386
+    implementation 'com.jaeger.statusbarutil:library:1.5.1' //状态栏的第三方库
+
+    //https://github.com/Carson-Ho/Search_Layout
+    implementation 'com.carson_ho:SearchLayout:1.0.1'
+
+    implementation 'org.litepal.guolindev:core:3.2.1'   //litePal 郭霖的 数据库操作库
+
+    //https://github.com/scwang90/SmartRefreshLayout
+    implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.1.0-x'   //下拉更新 布局的库 这个库也是太舒服了
+    implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.1.0-x'    //下拉更新  头部的库这个库也是太舒服了
+
+//    https://blog.csdn.net/weixin_39886154/article/details/80894089
+//    使用USB连接
+//    　　如果调试设备与PC间的网络不通，可以使用USB连接的方式去访问。
+//    　　1）使用如下adb命令：
+//    　　　　adb forward tcp:8080 tcp:8080
+//    　　2)在PC的浏览器中输入以下网址：
+//    　　　　http://localhost:8080
+    debugImplementation 'com.amitshekhar.android:debug-db:1.0.6'        //电脑浏览器调试数据库
+
+    //https://www.yuque.com/razerdp/basepopup/qc5xc1
+    implementation 'com.github.razerdp:BasePopup:2.2.7'     //多功能弹窗库
+}

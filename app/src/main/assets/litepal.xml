@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<litepal>
+
+    <!--定义应用程序的数据库名称。默认情况下，每个数据库名称应以.db结尾。
+    如果您没有使用.db命名数据库端，LitePal会自动为您添加后缀。-->
+    <dbname value="LitePalDemo" />
+
+    <!--定义数据库的版本。每次要升级数据库时，版本标记都会有所帮助。
+    修改您在映射标记中定义的模型，只需将版本值加1，即可自动处理数据库升级而无需担心。-->
+    <version value="4" />
+
+    <!--定义.db文件的位置。“internal”表示.db文件将存储在内部存储的数据库文件夹中，无人可以访问。
+    “external”表示.db文件将存储在主外部存储设备上目录的路径中，其中应用程序可以放置其拥有的每个人都
+    可以访问的永久文件。“内部”将作为默认值。 例如!-->
+    <storage value="internal" />
+
+    <list>
+        <mapping class="hk.com.rubyicl.gpms.entity.MaterialEntity" />
+        <mapping class="hk.com.rubyicl.gpms.entity.SubstanceEntity" />
+        <mapping class="hk.com.rubyicl.gpms.entity.RegulationEntity"/>
+        <mapping class="hk.com.rubyicl.gpms.entity.RegulationItemEntity"/>
+    </list>
+
+</litepal>

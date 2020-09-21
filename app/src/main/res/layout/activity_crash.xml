@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="16dp">
+
+    <ImageView
+        android:src="@drawable/data"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.25"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:id="@+id/iv_bug"
+        android:layout_width="180dp"
+        android:layout_height="180dp"
+        android:layout_centerHorizontal="true"
+        android:contentDescription="@null"
+        />
+
+    <TextView
+        app:layout_constraintStart_toStartOf="@id/iv_bug"
+        app:layout_constraintEnd_toEndOf="@id/iv_bug"
+        app:layout_constraintTop_toBottomOf="@id/iv_bug"
+        android:id="@+id/crash_tv"
+        android:layout_marginTop="30dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="15sp"
+        android:text="@string/crash"
+        android:textAlignment="center" />
+
+<!--    android:src="@drawable/customactivityoncrash_error_image"-->
+
+
+    <TextView
+        android:layout_marginTop="150dp"
+        app:layout_constraintTop_toBottomOf="@id/crash_tv"
+        app:layout_constraintStart_toStartOf="@id/crash_tv"
+        app:layout_constraintEnd_toEndOf="@id/crash_tv"
+        android:id="@+id/tv_log"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:text="查看日志"
+        android:textColor="#999999"
+        android:textSize="15sp" />
+
+    <TextView
+        app:layout_constraintTop_toBottomOf="@id/tv_log"
+        android:layout_marginTop="20dp"
+        android:id="@+id/tv_restart"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:background="@drawable/bg_press_color_main_radius_max"
+        android:gravity="center"
+        android:text="重新启动"
+        android:textColor="#ffffff"
+        android:textSize="15sp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
