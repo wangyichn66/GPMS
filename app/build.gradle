@@ -16,11 +16,12 @@ android {
         applicationVariants.all { variant ->
             variant.outputs.all { output ->
                 //def date = new Date().format("yyyy MM dd HH.mm", TimeZone.getTimeZone("GMT+08"))
-                if (variant.buildType.name == "debug") {
-                    output.outputFileName = "GPMS_V${android.defaultConfig.versionName}($android.defaultConfig.versionCode)_debug.apk"
-                } else if (variant.buildType.name == "release") {
-                    output.outputFileName = "GPMS_V${android.defaultConfig.versionName}($android.defaultConfig.versionCode)_release.apk"
-                }
+//                if (variant.buildType.name == "debug") {
+//                    output.outputFileName = "GPMS_V${android.defaultConfig.versionName}($android.defaultConfig.versionCode)_debug.apk"
+//                } else if (variant.buildType.name == "release") {
+//                    output.outputFileName = "GPMS_V${android.defaultConfig.versionName}($android.defaultConfig.versionCode)_release.apk"
+//                }
+                output.outputFileName = "GPMS.apk"
             }
         }
     }
