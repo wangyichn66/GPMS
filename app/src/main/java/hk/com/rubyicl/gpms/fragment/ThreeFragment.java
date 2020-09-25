@@ -1,6 +1,7 @@
 package hk.com.rubyicl.gpms.fragment;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 
 import com.blankj.utilcode.util.FileUtils;
 import com.blankj.utilcode.util.LogUtils;
@@ -20,24 +22,26 @@ import com.permissionx.guolindev.callback.RequestCallback;
 import com.permissionx.guolindev.request.ExplainScope;
 import com.permissionx.guolindev.request.ForwardScope;
 
-import org.apache.poi.hssf.usermodel.HSSFDateUtil;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellValue;
 import org.apache.poi.ss.usermodel.FormulaEvaluator;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.litepal.LitePal;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+import java.util.Objects;
 
 import butterknife.OnClick;
 import hk.com.rubyicl.gpms.MimeType;
 import hk.com.rubyicl.gpms.R;
 import hk.com.rubyicl.gpms.activity.NewMaterialActivity;
+import hk.com.rubyicl.gpms.activity.NewRegulationActivity;
 import hk.com.rubyicl.gpms.entity.RegulationEntity;
 import hk.com.rubyicl.gpms.entity.RegulationItemEntity;
 
@@ -73,7 +77,7 @@ public class ThreeFragment extends BaseFragment {
                 NewMaterialActivity.start(getContext(), 0);
                 break;
             case R.id.data2_tv:
-                ToastUtils.showShort(getString(R.string.data2));
+                NewRegulationActivity.start(getContext(), 0);
                 break;
             case R.id.fragment_three_layout3:
                 PermissionX.init(this)
@@ -125,10 +129,24 @@ public class ThreeFragment extends BaseFragment {
         if (requestCode == FILE_PICKER_REQUEST_CODE && resultCode == Activity.RESULT_OK) {
             if (data != null && data.getData() != null) {
                 File file = UriUtils.uri2File(data.getData());
-                LogUtils.d("选择的文件:" + file);
+//                LogUtils.d("选择的文件:" + file);
                 ToastUtils.showLong("选择的文件:" + file);
                 if (isExcelFile(file)) {
-                    readExcel(file);
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                readExcel(file);
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                                ToastUtils.showLong("导入失败 IOException");
+                                new AlertDialog.Builder(Objects.requireNonNull(getActivity()))
+                                    .setTitle("导入失败")
+                                    .setMessage(e.getMessage())
+                                    .show();
+                            }
+                        }
+                    }).start();
                 } else {
                     ToastUtils.showLong("所选文件不是Excel文件");
                 }
@@ -139,85 +157,93 @@ public class ThreeFragment extends BaseFragment {
         }
     }
 
-    private void readExcel(File file) {
+    /**
+     * 读取法规的Excle 到SqlLite数据库里面
+     * Excle 每个Sheet的第一行为法规的名称
+     * 如果有同样的法规会删除原来的法规 也删掉了法规详情条目
+     *
+     * @param file
+     */
+    @SuppressLint("DefaultLocale")
+    private void readExcel(File file) throws IOException {
         int No_index = -1;
         int substances_name_cn_index = -1;
         int subtances_name_eg_index = -1;
         int CAS_No_index = -1;
         int threshold_index = -1;
-        RegulationEntity regulationEntity = new RegulationEntity();
-        try {
-            InputStream stream = new FileInputStream(file);
-            XSSFWorkbook workbook = new XSSFWorkbook(stream);
-            int sheetCount = workbook.getNumberOfSheets();      //一个有多少个sheet
-            XSSFSheet sheet = workbook.getSheetAt(1);   //获取第一张表
+
+        InputStream stream = new FileInputStream(file);
+        XSSFWorkbook workbook = new XSSFWorkbook(stream);
+        int sheetCount = workbook.getNumberOfSheets();      //一个有多少个sheet
+        FormulaEvaluator formulaEvaluator = workbook.getCreationHelper().createFormulaEvaluator();
+        for (int s = 0; s < sheetCount; s++) {
+            XSSFSheet sheet = workbook.getSheetAt(s);   //获取第s张表
+            //删掉之前的表
+            LitePal.deleteAll(RegulationEntity.class, "name = ?", sheet.getRow(0).getCell(0).toString());
+            RegulationEntity regulationEntity = new RegulationEntity();
             int rowsCount = sheet.getPhysicalNumberOfRows();    //读取有多少行
-            FormulaEvaluator formulaEvaluator = workbook.getCreationHelper().createFormulaEvaluator();
-            for (int s = 1; s < sheetCount; s++) {
-                for (int r = 0; r < rowsCount; r++) {   //竖向遍历 行遍历
-                    Row row = sheet.getRow(r);
-                    int cellsCount = row.getPhysicalNumberOfCells();    //获取该列有多少行
-                    RegulationItemEntity regulationItemEntity = new RegulationItemEntity();
-                    regulationItemEntity.setRegulationEntity(regulationEntity);
-                    //每次读取一行的内容
-                    for (int c = 0; c < cellsCount; c++) {
-                        String cellContent = getCellAsString(row, c, formulaEvaluator);
-                        //将每一格子的内容转换为字符串形式
-                        //LogUtils.d("r = " + r + " c = " + c + " Cell = " + row.getCell(c).toString());
-                        //如果第第1行1列那么就是 法规的名称
-                        if (r == 0 && c == 0) {
-                            regulationEntity.setName(cellContent);
+            for (int r = 0; r < rowsCount; r++) {   //竖向遍历 行遍历
+                Row row = sheet.getRow(r);
+                int cellsCount = row.getPhysicalNumberOfCells();    //获取该列有多少行
+                RegulationItemEntity regulationItemEntity = new RegulationItemEntity();
+                regulationItemEntity.setRegulationEntity(regulationEntity);
+                //每次读取一行的内容
+                for (int c = 0; c < cellsCount; c++) {
+                    String cellContent = getCellAsString(row, c, formulaEvaluator);
+                    //将每一格子的内容转换为字符串形式
+                    //LogUtils.d("r = " + r + " c = " + c + " Cell = " + row.getCell(c).toString());
+                    //如果第第1行1列那么就是 法规的名称
+                    if (r == 0 && c == 0) {
+                        regulationEntity.setName(cellContent);
+                    }
+                    //如果是第二行 那就是每一列的名字
+                    if (r == 1) {
+//                        LogUtils.d("r = " + r + " c = " + c + " Cell = " + row.getCell(c).toString());
+                        switch (cellContent) {
+                            case "No":
+                                No_index = c;
+                                break;
+                            case "物质名称":
+                                substances_name_cn_index = c;
+                                break;
+                            case "Substances Name":
+                                subtances_name_eg_index = c;
+                                break;
+                            case "CAS No.":
+                                CAS_No_index = c;
+                                break;
+                            case "参考阈值/Threshold":
+                            case "限制要求":
+                                threshold_index = c;
+                                break;
                         }
-                        //如果是第二行 那就是每一列的名字
-                        if (r == 1) {
-                            LogUtils.d("r = " + r + " c = " + c + " Cell = " + row.getCell(c).toString());
-                            switch (cellContent) {
-                                case "No":
-                                    No_index = c;
-                                    break;
-                                case "物质名称":
-                                    substances_name_cn_index = c;
-                                    break;
-                                case "Substances Name":
-                                    subtances_name_eg_index = c;
-                                    break;
-                                case "CAS No.":
-                                    CAS_No_index = c;
-                                    break;
-                                case "参考阈值/Threshold":
-                                case "限制要求":
-                                    threshold_index = c;
-                                    break;
-                            }
-                            LogUtils.d(String.format("No_index = %d ,substances_name_cn_index = %d ,subtances_name_eg_index = %d ,CAS_No_index = %d, threshold_index = %d",
-                                No_index, substances_name_cn_index, subtances_name_eg_index, CAS_No_index, threshold_index));
+//                        LogUtils.d(String.format("No_index = %d ,substances_name_cn_index = %d ,subtances_name_eg_index = %d ,CAS_No_index = %d, threshold_index = %d",
+//                            No_index, substances_name_cn_index, subtances_name_eg_index, CAS_No_index, threshold_index));
+                    }
+                    if (r > 1) {    //下标大于1的 都是法规正式内容了
+                        if (c == No_index) {
+                            regulationItemEntity.setNo(cellContent);
+                        } else if (c == substances_name_cn_index) {
+                            regulationItemEntity.setSubstances_name_cn(cellContent);
+                        } else if (c == subtances_name_eg_index) {
+                            regulationItemEntity.setSubstances_name_eg(cellContent);
+                        } else if (c == CAS_No_index) {
+                            regulationItemEntity.setCAS_No(cellContent);
+                        } else if (c == threshold_index) {
+                            regulationItemEntity.setThreshold(cellContent);
                         }
-                        if (r > 1) {    //下标大于1的 都是法规正式内容了
-                            if (c == No_index) {
-                                regulationItemEntity.setNo(cellContent);
-                            } else if (c == substances_name_cn_index) {
-                                regulationItemEntity.setSubstances_name_cn(cellContent);
-                            } else if (c == subtances_name_eg_index) {
-                                regulationItemEntity.setSubstances_name_eg(cellContent);
-                            } else if (c == CAS_No_index) {
-                                regulationItemEntity.setCAS_No(cellContent);
-                            } else if (c == threshold_index) {
-                                regulationItemEntity.setThreshold(cellContent);
-                            }
-                            if (c == cellsCount - 1) {  //都读取完了
+                        if (c == cellsCount - 1) {  //都读取完了
+                            if (!regulationItemEntity.isNull()) {
                                 regulationItemEntity.save();    //保存Item到数据库
                                 regulationEntity.getRegulationItemEntityList().add(regulationItemEntity);   //把当前Item添加到对应的表的list里面
                             }
-
                         }
                     }
                 }
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+            regulationEntity.save();
         }
-        regulationEntity.save();
-        ToastUtils.showLong("Excel 导入搞定!");
+        ToastUtils.showLong("从Excel导入了 %d 个法规!", sheetCount);
     }
 
     /**
@@ -252,10 +278,6 @@ public class ThreeFragment extends BaseFragment {
             LogUtils.e("r: " + row.getRowNum() + " c: " + c + "为空");
         }
         return value;
-    }
-
-    private void parseTable(int sheet) {
-
     }
 
     private boolean isExcelFile(File file) {

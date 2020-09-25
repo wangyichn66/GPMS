@@ -1,4 +1,4 @@
-package hk.com.rubyicl.gpms;
+package hk.com.rubyicl.gpms.adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +15,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import hk.com.rubyicl.gpms.R;
 import hk.com.rubyicl.gpms.entity.SubstanceEntity;
 
 /**

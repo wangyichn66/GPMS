@@ -8,8 +8,8 @@ android {
         applicationId "hk.com.rubyicl.gpms"
         minSdkVersion 26
         targetSdkVersion 30
-        versionCode 1
-        versionName "1.0"
+        versionCode 3
+        versionName "1.2"
         multiDexEnabled true  //true 开启多dex，解除65k限制
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

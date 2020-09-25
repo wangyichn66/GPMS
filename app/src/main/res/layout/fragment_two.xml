@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <RelativeLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/title_layout"
         android:layout_width="match_parent"
         android:layout_height="60dp"
@@ -15,13 +15,32 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
+            android:id="@+id/title_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="@string/title"
             android:textColor="@color/black"
-            android:textSize="15sp" />
-    </RelativeLayout>
+            android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:layout_marginStart="10dp"
+            android:id="@+id/info_iv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="15dp"
+            android:scaleX="0.8"
+            android:scaleY="0.8"
+            android:src="@drawable/info"
+            app:layout_constraintBottom_toBottomOf="@id/title_tv"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/title_tv"
+            />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <LinearLayout
         android:id="@+id/search_layout"
@@ -50,7 +69,7 @@
                 android:src="@drawable/search" />
 
             <AutoCompleteTextView
-                android:id="@+id/search_et"
+                android:id="@+id/search_autotv"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
@@ -71,9 +90,8 @@
                 android:scaleY="1.2"
                 android:src="@drawable/delete"
                 android:visibility="invisible" />
-
-
         </LinearLayout>
+
         <Button
             android:id="@+id/search_btn"
             android:layout_width="wrap_content"
@@ -86,4 +104,31 @@
             android:text="搜索"
             android:textColor="@color/colorPrimary" />
     </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <com.scwang.smartrefresh.layout.SmartRefreshLayout
+            android:id="@+id/sml"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv"
+                android:paddingStart="15dp"
+                android:paddingTop="5dp"
+                android:paddingEnd="15dp"
+                android:paddingBottom="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+        <include
+            android:id="@+id/material_empty_layout"
+            layout="@layout/rv_empty_layout" />
+    </FrameLayout>
+
+
 </LinearLayout>

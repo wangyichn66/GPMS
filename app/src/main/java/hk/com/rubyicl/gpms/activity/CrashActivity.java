@@ -13,6 +13,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
+import com.jaeger.library.StatusBarUtil;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -39,6 +40,8 @@ public class CrashActivity extends AppCompatActivity {
             finish();
             return;
         }
+        StatusBarUtil.setColor(this, getColor(R.color.search_layout_bg), 0);
+        StatusBarUtil.setLightMode(this);
         setContentView(R.layout.activity_crash);
         mUnbinder = ButterKnife.bind(this);
         Glide.with(CrashActivity.this)

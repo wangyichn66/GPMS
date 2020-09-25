@@ -1,5 +1,7 @@
 package hk.com.rubyicl.gpms.entity;
 
+import com.blankj.utilcode.util.StringUtils;
+
 import org.litepal.crud.LitePalSupport;
 
 /**
@@ -17,6 +19,14 @@ public class RegulationItemEntity extends LitePalSupport {
     private String CAS_No;  //对应法规CAS NO.
     private String threshold;   //限制要求/参考阈值/Threshold
     private RegulationEntity regulationEntity;
+
+    public boolean isNull(){
+        return StringUtils.isEmpty(No)
+            && StringUtils.isEmpty(substances_name_cn)
+            && StringUtils.isEmpty(substances_name_eg)
+            && StringUtils.isEmpty(CAS_No)
+            && StringUtils.isEmpty(threshold);
+    }
 
     public long getId() {
         return id;
@@ -72,5 +82,18 @@ public class RegulationItemEntity extends LitePalSupport {
 
     public void setRegulationEntity(RegulationEntity regulationEntity) {
         this.regulationEntity = regulationEntity;
+    }
+
+    @Override
+    public String toString() {
+        return "RegulationItemEntity{" +
+            "id=" + id +
+            ", No='" + No + '\'' +
+            ", substances_name_cn='" + substances_name_cn + '\'' +
+            ", substances_name_eg='" + substances_name_eg + '\'' +
+            ", CAS_No='" + CAS_No + '\'' +
+            ", threshold='" + threshold + '\'' +
+            ", regulationEntity=" + regulationEntity +
+            '}';
     }
 }

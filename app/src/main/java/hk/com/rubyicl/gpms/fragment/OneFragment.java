@@ -1,21 +1,17 @@
 package hk.com.rubyicl.gpms.fragment;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -31,18 +27,15 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import org.litepal.LitePal;
 
-import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import hk.com.rubyicl.gpms.BuildConfig;
-import hk.com.rubyicl.gpms.MaterialAdapter;
+import hk.com.rubyicl.gpms.adapter.MaterialAdapter;
 import hk.com.rubyicl.gpms.MyUtils;
 import hk.com.rubyicl.gpms.R;
 import hk.com.rubyicl.gpms.RecyclerViewSpacesItemDecoration;
-import hk.com.rubyicl.gpms.TipsPopupWindow;
 import hk.com.rubyicl.gpms.activity.MaterialDetailsActivity;
 import hk.com.rubyicl.gpms.entity.MaterialEntity;
 
@@ -79,16 +72,16 @@ public class OneFragment extends BaseFragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         initView();
-        refreshData();
+        loadAllData();
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        refreshData();
+        loadAllData();
     }
 
-    private void refreshData() {
+    private void loadAllData() {
         List<MaterialEntity> materialEntityList = LitePal.findAll(MaterialEntity.class, true);
         LogUtils.d(materialEntityList);
         materialAdapter.setData(materialEntityList);
@@ -103,9 +96,8 @@ public class OneFragment extends BaseFragment {
     }
 
 
-    private void refreshData(String like) {
+    private void filtrationData(String like) {
         String like_str = "%" + like + "%";
-//        List<MaterialEntity> materialEntityList = LitePal.findAll(MaterialEntity.class, true);
         List<MaterialEntity> materialEntityList =
             LitePal.where("name like ? or brand like ? or type like ? or compliance like ?", like_str, like_str, like_str, like_str)
                 .find(MaterialEntity.class);
@@ -114,7 +106,7 @@ public class OneFragment extends BaseFragment {
         materialAdapter.setData(materialEntityList);
         if (materialEntityList.size() == 0) {
             TextView empty_layout_tv = material_empty_layout.findViewById(R.id.material_empty_layout);
-            empty_layout_tv.setText(getString(R.string.serach_empty));
+            empty_layout_tv.setText(getString(R.string.material_serach_empty));
             material_empty_layout.setVisibility(View.VISIBLE);
         } else {
             material_empty_layout.setVisibility(View.GONE);
@@ -122,11 +114,10 @@ public class OneFragment extends BaseFragment {
     }
 
     private void initView() {
-
         sml.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-                refreshData();
+                loadAllData();
                 ToastUtils.showShort("刷新成功");
                 refreshLayout.finishRefresh();
             }
@@ -156,7 +147,7 @@ public class OneFragment extends BaseFragment {
                             } else {
                                 ToastUtils.showShort("删除失败");
                             }
-                            refreshData();
+                            loadAllData();
                             dialog.dismiss();
                         }
                     })
@@ -205,9 +196,9 @@ public class OneFragment extends BaseFragment {
         switch (view.getId()) {
             case R.id.search_btn:
                 if (StringUtils.isEmpty(search_et.getText().toString())) {
-                    refreshData();
+                    loadAllData();
                 } else {
-                    refreshData(search_et.getText().toString());
+                    filtrationData(search_et.getText().toString());
                 }
                 break;
             case R.id.delete_imgbtn:
@@ -219,19 +210,18 @@ public class OneFragment extends BaseFragment {
 ////                tipsPopupWindow.setBackgroundColor(Color.TRANSPARENT);
 ////                tipsPopupWindow.setBlurBackgroundEnable(true);
 //                tipsPopupWindow.showPopupWindow();
-
                 AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
                     .setTitle("提示")
                     .setMessage(
                         getString(
-                            R.string.tips, MyUtils.getDebugDBAddressLog(getActivity())
+                            R.string.tips, "\n2." + MyUtils.getDebugDBAddressLog(getActivity())
                                 + "\n将手机和电脑连接到同一局域网或者wifi\n然后输入上面这个地址就可以调试数据库"
+                                + "\n3.可通过物料名称、品牌、类型、法规搜索对应物料"
                         )
                     )
                     .setPositiveButton("ok", null)
                     .setCancelable(true)
                     .show();
-
                 break;
         }
     }

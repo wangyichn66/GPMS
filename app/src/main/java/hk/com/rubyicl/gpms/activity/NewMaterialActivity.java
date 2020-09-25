@@ -6,18 +6,12 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.ImageView;
 
-import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.blankj.utilcode.util.LogUtils;
 import com.blankj.utilcode.util.StringUtils;
 import com.blankj.utilcode.util.TimeUtils;
 import com.blankj.utilcode.util.ToastUtils;
@@ -25,7 +19,6 @@ import com.jaeger.library.StatusBarUtil;
 
 import org.litepal.LitePal;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
@@ -33,7 +26,7 @@ import java.util.Objects;
 import butterknife.BindView;
 import butterknife.OnClick;
 import hk.com.rubyicl.gpms.MyUtils;
-import hk.com.rubyicl.gpms.NewContainsMaterialAdapter;
+import hk.com.rubyicl.gpms.adapter.NewContainsMaterialAdapter;
 import hk.com.rubyicl.gpms.R;
 import hk.com.rubyicl.gpms.RecyclerViewSpacesItemDecoration;
 import hk.com.rubyicl.gpms.entity.MaterialEntity;
@@ -43,7 +36,7 @@ import hk.com.rubyicl.gpms.entity.SubstanceEntity;
  * <pre>
  *     author wangyi
  *     create time: 2020/9/6 10:54
- *     description:
+ *     description: 编辑和新增法规都是这个Activity
  *  <pre>
  */
 public class NewMaterialActivity extends BaseActivity {
@@ -57,17 +50,16 @@ public class NewMaterialActivity extends BaseActivity {
     EditText compliance_et;
     @BindView(R.id.rv)
     RecyclerView rv;
-//    @BindView(R.id.info_iv)
+    //    @BindView(R.id.info_iv)
 //    ImageView info_iv;
-    NewContainsMaterialAdapter newContainsMaterialAdapter;
-    LinearLayoutManager linearLayoutManager;
-    MaterialEntity materialEntity;
+    private NewContainsMaterialAdapter newContainsMaterialAdapter;
+    private MaterialEntity materialEntity;
     public static final int RESULT_CODE_CANCEL = 1;
     public static final int RESULT_CODE_MODIFED = 2;
 
     @Override
     protected int getLayout() {
-        return R.layout.layout_new_material;
+        return R.layout.activity_new_material;
     }
 
     @Override
@@ -97,7 +89,6 @@ public class NewMaterialActivity extends BaseActivity {
         newContainsMaterialAdapter.setOnItemLongClickListener(new NewContainsMaterialAdapter.OnItemLongClickListener() {
             @Override
             public void onItemLongClicked(int position) {
-
                 new AlertDialog.Builder(NewMaterialActivity.this)
                     .setTitle("确认删除")
                     .setMessage("确认删除本行吗？删除后不可撤销！")
@@ -117,7 +108,7 @@ public class NewMaterialActivity extends BaseActivity {
                     .show();
             }
         });
-        linearLayoutManager = new LinearLayoutManager(NewMaterialActivity.this, RecyclerView.VERTICAL, false);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(NewMaterialActivity.this, RecyclerView.VERTICAL, false);
         rv.setLayoutManager(linearLayoutManager);
         rv.setAdapter(newContainsMaterialAdapter);
 
@@ -143,8 +134,8 @@ public class NewMaterialActivity extends BaseActivity {
         }
 
         List<SubstanceEntity> substanceEntities = newContainsMaterialAdapter.getSubstanceEntities();
-        LogUtils.d(substanceEntities.size());
-        LogUtils.d(rv.getChildCount());
+//        LogUtils.d(substanceEntities.size());
+//        LogUtils.d(rv.getChildCount());
         for (int i = 0; i < substanceEntities.size(); i++) {
             RecyclerView.ViewHolder viewHolder = rv.findViewHolderForLayoutPosition(i);
             if (viewHolder instanceof NewContainsMaterialAdapter.ContentViewHolder) {

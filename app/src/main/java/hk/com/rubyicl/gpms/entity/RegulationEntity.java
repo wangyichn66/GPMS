@@ -16,8 +16,16 @@ public class RegulationEntity extends LitePalSupport {
     private long id;            //数据库表的ID 自增 无法修改
     private String name;        //法规的名字
     private String remarks;     //法规的备注
+    private String time;        //时间
     private List<RegulationItemEntity> regulationItemEntityList = new ArrayList<>();
 
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
 
     public long getId() {
         return id;
@@ -49,5 +57,15 @@ public class RegulationEntity extends LitePalSupport {
 
     public void setRegulationItemEntityList(List<RegulationItemEntity> regulationItemEntityList) {
         this.regulationItemEntityList = regulationItemEntityList;
+    }
+
+    @Override
+    public String toString() {
+        return "RegulationEntity{" +
+            "id=" + id +
+            ", name='" + name + '\'' +
+            ", remarks='" + remarks + '\'' +
+            ", regulationItemEntityList=" + regulationItemEntityList +
+            '}';
     }
 }

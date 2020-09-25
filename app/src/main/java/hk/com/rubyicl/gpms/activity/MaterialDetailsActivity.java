@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.blankj.utilcode.util.LogUtils;
-import com.blankj.utilcode.util.ToastUtils;
 import com.jaeger.library.StatusBarUtil;
 
 import org.litepal.LitePal;
@@ -22,7 +21,7 @@ import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import hk.com.rubyicl.gpms.ContainsMaterialAdapter;
+import hk.com.rubyicl.gpms.adapter.ContainsMaterialAdapter;
 import hk.com.rubyicl.gpms.R;
 import hk.com.rubyicl.gpms.RecyclerViewSpacesItemDecoration;
 import hk.com.rubyicl.gpms.entity.MaterialEntity;
@@ -108,7 +107,6 @@ public class MaterialDetailsActivity extends BaseActivity {
         intent.putExtra("Id", id);
         context.startActivity(intent);
     }
-
 
     @OnClick({R.id.back_imgbtn, R.id.modfiy_btn})
     void onClick(View view) {

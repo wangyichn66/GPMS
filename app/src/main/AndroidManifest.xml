@@ -3,7 +3,7 @@
     package="hk.com.rubyicl.gpms">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:name=".MyApplication"
@@ -16,6 +16,11 @@
         <activity
             android:name=".activity.MainActivity"
             android:screenOrientation="portrait">
+
+        </activity>
+        <activity
+            android:name=".activity.WelcomeActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -23,21 +28,27 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.WelcomeActivity"
-            android:screenOrientation="portrait">
-
-        </activity>
-        <activity
             android:name=".activity.CrashActivity"
             android:screenOrientation="portrait" />
 
         <activity
             android:name=".activity.MaterialDetailsActivity"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait">
 
         </activity>
 
-        <activity android:name=".activity.NewMaterialActivity"
+        <activity
+            android:name=".activity.NewMaterialActivity"
+            android:screenOrientation="portrait">
+
+        </activity>
+        <activity
+            android:name=".activity.RegulationDetailsActivity"
+            android:screenOrientation="portrait">
+
+        </activity>
+        <activity
+            android:name=".activity.NewRegulationActivity"
             android:screenOrientation="portrait">
 
         </activity>
