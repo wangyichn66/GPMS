@@ -12,6 +12,17 @@ android {
         versionName "1.2"
         multiDexEnabled true  //true 开启多dex，解除65k限制
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        //修改apk 的 文件名
+        applicationVariants.all { variant ->
+            variant.outputs.all { output ->
+                //def date = new Date().format("yyyy MM dd HH.mm", TimeZone.getTimeZone("GMT+08"))
+                if (variant.buildType.name == "debug") {
+                    output.outputFileName = "GPMS_V${android.defaultConfig.versionName}($android.defaultConfig.versionCode)_debug.apk"
+                } else if (variant.buildType.name == "release") {
+                    output.outputFileName = "GPMS_V${android.defaultConfig.versionName}($android.defaultConfig.versionCode)_release.apk"
+                }
+            }
+        }
     }
 
     signingConfigs {
@@ -21,11 +32,21 @@ android {
             keyAlias = 'gpms'
             keyPassword '123456'
         }
+        release {
+            storeFile file('../gpms.jks')
+            storePassword '123456*'
+            keyAlias = 'gpms'
+            keyPassword '123456'
+        }
     }
 
     buildTypes {
         release {
-            minifyEnabled false
+            debuggable true
+            shrinkResources true //是否清理无用资源,依赖于minifyEnabled
+            minifyEnabled true  //是否开启混淆
+            zipAlignEnabled true //是否启用zipAlign压缩
+            signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
